@@ -21,7 +21,21 @@ app.post("/auth/login", (req, res) => {
     return res.status(403).send({ error: "Username and Password is required" });
   }
 
-  // const userLogin = signIn(username, password);
+  const userLogin = signIn(username, password);
+
+  const payload = {
+    id: userLogin.id,
+    username: userLogin.username,
+    email: userLogin.email,
+  };
+
+  const accessToken = encode(payload, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: "5m",
+  });
+
+  const refreshToken = encode(payload, process.env.REFRESH_TOKEN_SECRET, {
+    expiresIn: "30d",
+  });
 
   return res.send({
     success: true,
