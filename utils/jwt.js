@@ -6,4 +6,10 @@ function encode(payload, secret, options = {}) {
   return token;
 }
 
+//encryption JWT token and get the originally payload
+function decode(token, secret) {
+  const decoded = jwt.verify(token, secret);
+  return decoded;
+}
 
+module.exports = { encode, decode };
