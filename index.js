@@ -37,8 +37,12 @@ app.post("/auth/login", (req, res) => {
     expiresIn: "30d",
   });
 
+  refreshToken.push(refreshToken);
+
   return res.send({
     success: true,
+    access_token: accessToken,
+    refresh_token: refreshToken,
   });
 });
 
