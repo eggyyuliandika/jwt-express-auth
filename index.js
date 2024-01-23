@@ -1,7 +1,8 @@
 const express = require("express");
-const { getUserById } = require("./services/users");
 const app = express();
 const bodyParser = require("body-parser");
+const { signIn } = require("./services/auth");
+const { getUserById } = require("./services/users");
 const { users } = require("./db");
 const port = process.env.PORT || 3000;
 
@@ -10,7 +11,7 @@ app.use(bodyParser.json());
 app.get("/", (req, res) => {
   res.send({
     success: "true",
-    users: users,
+    // users: users,
   });
 });
 
@@ -20,7 +21,7 @@ app.post("/auth/login", (req, res) => {
     return res.status(403).send({ error: "Username and Password is required" });
   }
 
-  const userLogin = signIn(username, password);
+  // const userLogin = signIn(username, password);
 
   return res.send({
     success: true,
