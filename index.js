@@ -68,6 +68,12 @@ app.post("/auth/refresh-token", (req, res) => {
     return res.status(403).send({ error: "Token not valid" });
   }
 
+  const payload = {
+    id: decoded.id,
+    username: decoded.username,
+    email: decoded.email,
+  };
+
   
 });
 
