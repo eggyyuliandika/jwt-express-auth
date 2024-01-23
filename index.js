@@ -11,14 +11,14 @@ app.use(bodyParser.json());
 app.get("/", (req, res) => {
   res.send({
     success: "true",
-    // users: users,
   });
 });
 
+//route to login user
 app.post("/auth/login", (req, res) => {
   const { username = null, password = null } = req.body;
   if (username === null || password === null) {
-    return res.status(403).send({ error: "Username and Password is required" });
+    return res.status(422).send({ error: "Username and Password is required" });
   }
 
   const userLogin = signIn(username, password);
@@ -44,6 +44,15 @@ app.post("/auth/login", (req, res) => {
     access_token: accessToken,
     refresh_token: refreshToken,
   });
+});
+
+//route to get new access token by send refresh token
+app.post("/auth/refresh-token", (req, res) => {
+  const { refresh_token: refreshToken } = req.body;
+
+  if (!refreshToken) {
+    return res.status(403).send({ error: "Token not found" });
+  }
 });
 
 app.listen(port, () => {
