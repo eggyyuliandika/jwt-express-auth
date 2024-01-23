@@ -55,10 +55,20 @@ app.post("/auth/refresh-token", (req, res) => {
     return res.status(403).send({ error: "Token not found" });
   }
 
-  //create a condition to check if the entered refresh token is in the list of refresh tokens
   if (!refreshToken.includes(refreshToken)) {
     return res.status(403).send({ error: "Token not found" });
   }
+
+  //create variable to hold result from refresh token encryption
+  let decoded;
+
+  try {
+    decoded = decode(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+  } catch (error) {
+    return res.status(403).send({ error: "Token not valid" });
+  }
+
+  
 });
 
 app.listen(port, () => {
