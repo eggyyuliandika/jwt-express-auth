@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const { signIn } = require("./services/auth");
 const { getUserById } = require("./services/users");
 const { users } = require("./db");
+const { encode, decode } = require("jsonwebtoken");
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
@@ -51,6 +52,11 @@ app.post("/auth/refresh-token", (req, res) => {
   const { refresh_token: refreshToken } = req.body;
 
   if (!refreshToken) {
+    return res.status(403).send({ error: "Token not found" });
+  }
+
+  //create a condition to check if the entered refresh token is in the list of refresh tokens
+  if (!refreshToken.includes(refreshToken)) {
     return res.status(403).send({ error: "Token not found" });
   }
 });
