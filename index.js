@@ -74,7 +74,9 @@ app.post("/auth/refresh-token", (req, res) => {
     email: decoded.email,
   };
 
-  
+  const accessToken = encode(payload, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: "1m",
+  });
 });
 
 app.listen(port, () => {
